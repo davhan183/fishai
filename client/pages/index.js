@@ -6,6 +6,14 @@ import Main from '../components/Main';
 import Result from '../components/Result';
 import NoResult from '../components/NoResult';
 
+const dummy = [
+  "",
+  -1,
+  "",
+  0,
+  "",
+];
+
 export default function Home() {
   const [url, setURL] = useState(null);
   const [data, setData] = useState({});
@@ -18,13 +26,20 @@ export default function Home() {
       setURL(URL.createObjectURL(image));
       
       const body = new FormData();
-      body.append('file', image);
+      body.append('image', image);
       const response = await fetch('http://127.0.0.1:8000/analyze', {
         method: 'POST',
         body
       });
-      const data = await response.json();
-      setData(data);
+      const out = await response.json();
+      const d = out.length != 0 ? out[1] : dummy;
+      setData({
+        "name": d[0],
+        "allowed_catch": d[1],
+        "dates": d[2],
+        "minimum_size": d[4],
+        "description": d[3],
+      });
       setIsExample(false);
       setIsHome(false);
     }
@@ -64,7 +79,7 @@ export default function Home() {
           isHome ? (
             <Main goHome={goHome} analyze={analyze} example={example} />
           ) : data && isIdentified ? (
-            <Result data={data} isExample={isExample} goHome={goHome} />
+            <Result url={url} data={data} isExample={isExample} goHome={goHome} />
           ) : (
             <NoResult url={url} goHome={goHome} />
           )

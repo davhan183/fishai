@@ -22,6 +22,17 @@ model.eval()
 DATABASE_URL="postgresql://matt:Qd9RhxiNMvQDZOcwq44ZPw@free-tier11.gcp-us-east1.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full&options=--cluster%3Dbulky-shaman-2489"
 conn = psycopg2.connect(DATABASE_URL)
 
+dummy = [
+    {},
+    [
+        "",
+        -1,
+        "",
+        0,
+        "",
+    ]
+]
+
 def queryFishDB(query): 
     query = "SELECT * FROM fishdb.fish WHERE name='{}' ".format(query)
     with conn.cursor() as cur:
@@ -33,13 +44,16 @@ def queryFishDB(query):
 @app.route("/example", methods=["GET"])
 @cross_origin()
 def example():
-    return {
-        "name": "Atlantic Cod",
-        "allowed_catch": 1,
-        "dates": "August 1 - April 30",
-        "minimum_size": 22,
-        "description": "In the Northwest Atlantic, cod range from Greenland to Cape Hatteras, North Carolina. In U.S. waters, cod is most common on Georges Bank and in the western Gulf of Maine. Cod is an iconic fish of New England and in recent years, Atlantic cod stocks in our region have declined dramatically. NOAA Fisheries is working to rebuild this population. (Source: fisheries.noaa.gov)",
-    }
+    return [
+        {},
+        [
+            "Atlantic Cod",
+            1,
+            "August 1 - April 30",
+            22,
+            "In the Northwest Atlantic, cod range from Greenland to Cape Hatteras, North Carolina. In U.S. waters, cod is most common on Georges Bank and in the western Gulf of Maine. Cod is an iconic fish of New England and in recent years, Atlantic cod stocks in our region have declined dramatically. NOAA Fisheries is working to rebuild this population. (Source: fisheries.noaa.gov)",
+        ]
+    ]
 
 @app.route(DETECTION_URL, methods=["POST"])
 @cross_origin()
@@ -54,16 +68,16 @@ def predict():
         img = Image.open(io.BytesIO(image_bytes))
         results = model(img, size=640)
         if (len(results) == 0):
-            return { "allowed_catch": -1 }
+            return dummy
         data = results.pandas().xyxy[0].to_json(orient="records")   
         data_json = json.loads(data)
         if(len(data_json) > 0): 
             cockroach_data = queryFishDB(data_json[0]['name'])
             if(len(cockroach_data) > 0):
                 data_json.append(cockroach_data[0])
-        return json.dumps(data_json, separators=(',', ':'))
+        return data_json
     app.logger.info('failed to load files')
-    return { "allowed_catch": -1 }
+    return dummy
 
 
 if __name__ == "__main__":

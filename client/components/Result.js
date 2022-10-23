@@ -5,7 +5,7 @@ import { CustomButton } from '../components/CustomButton';
 import { Accordion, AccordionDetails, AccordionSummary } from '../components/CustomAccordion';
 
 export default function Result(props) {
-  const { data, isExample, goHome } = props;
+  const { url, data, isExample, goHome } = props;
 
   const [expanded, setExpanded] = useState('panel1');
   const handleChange = (panel) => (newExpanded) => {

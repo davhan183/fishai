@@ -1,13 +1,14 @@
 import { Grid, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
 import { CustomButton } from '../components/CustomButton';
+import Logo from '../assets/logo.png'
 
 export default function Main(props) {
   const { goHome, analyze, example } = props;
   return (
     <Grid container direction='column' justifyContent='center' alignItems='center' spacing={3}>
       <Grid item>
-        <img src='https://drive.google.com/uc?export=view&id=1xsPQpPHm8moF9j1hDlrxo9SFYFbfFsGg' className='center'/>
+        <img src={Logo.src} className='center'/>
       </Grid>
         <Typography
           variant='h3'
@@ -19,17 +20,17 @@ export default function Main(props) {
       <Grid item>
         <CustomButton
           component='label'
-          onClick={props.goHome}
+          onClick={goHome}
           children={
             <>
               Upload Image
-              <input hidden accept='image/*' multiple type='file' onChange={props.analyze} />
+              <input hidden accept='image/*' multiple type='file' onChange={analyze} />
             </>
           }  
         />
       </Grid>
       <Grid item>
-        <Link style={{ color: '#699ed3' }} underline='none' onClick={props.example}>
+        <Link style={{ color: '#699ed3' }} underline='none' onClick={example}>
           See Example
         </Link>
       </Grid>
