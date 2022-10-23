@@ -1,0 +1,51 @@
+@font-face {
+  font-family: main_font;
+  src: url(/fonts/Comfortaa/static/Comfortaa-Light.ttf);
+}
+body {
+  padding: 0;
+  margin: 4vw;
+  font-family: main_font, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  color: #ebebff;
+  background: black;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  margin: auto 100px;
+  width: 650px;
+  height: auto;
+}
+
+.fish-img{
+  height: 200px;
+  width: auto;
+  border: 5px solid;
+  border-radius: 4px;
+}
+
+.logo-img{
+  position: fixed;
+  height: 40px;
+  width: auto;
+  bottom: 5px;
+  right: -90px;
+}
+
+body {
+  background-image: url("https://drive.google.com/uc?export=view&id=1tkPKrii_-2a9_SeiAoB3NoqvuXGn5lvm");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: 50% 40%;
+}
